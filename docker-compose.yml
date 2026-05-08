@@ -1,0 +1,21 @@
+  services:
+    postgres:
+      image: postgres:17
+      container_name: vaulty-postgres
+      restart: unless-stopped
+      ports:
+        - "5434:5432"
+      environment:
+        POSTGRES_USER: vaulty
+        POSTGRES_PASSWORD: vaulty
+        POSTGRES_DB: vaulty
+      volumes:
+        - vaulty-postgres-data:/var/lib/postgresql/data
+      healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U vaulty -d vaulty"]
+        interval: 5s
+        timeout: 5s
+        retries: 10
+
+  volumes:
+    vaulty-postgres-data:
