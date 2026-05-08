@@ -220,28 +220,6 @@ export default function VaultyLogo({
           }}
         />
       </motion.g>
-
-      {showWordmark ? (
-        <motion.text
-          x="110"
-          y="226"
-          fill={`url(#${wordmarkGradientId})`}
-          fontFamily="Arial, Helvetica, sans-serif"
-          fontSize="45"
-          fontWeight="800"
-          textAnchor="middle"
-          variants={{
-            hidden: { opacity: 0, y: 8 },
-            visible: {
-              opacity: 1,
-              y: 0,
-              transition: { type: "spring", stiffness: 80, damping: 22 },
-            },
-          }}
-        >
-          vaulty
-        </motion.text>
-      ) : null}
     </motion.svg>
   );
 }

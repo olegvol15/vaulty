@@ -49,17 +49,19 @@ export default function ExistingVaultCard({
   return (
     <Card.Root
       asChild
-      borderColor="blackAlpha.200"
+      bg="whiteAlpha.100"
+      borderColor="whiteAlpha.200"
       borderWidth="1px"
-      maxW="360px"
+      maxW="300px"
+      minH="210px"
       overflow="hidden"
-      rounded="xl"
-      shadow="sm"
+      rounded="lg"
+      shadow="xl"
       transition="border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease"
       w="full"
       _hover={{
         borderColor: "blue.300",
-        shadow: "md",
+        shadow: "0 18px 50px rgba(14, 165, 233, 0.18)",
         transform: "translateY(-2px)",
       }}
     >
@@ -68,61 +70,67 @@ export default function ExistingVaultCard({
         aria-label={`Open ${name} vault`}
         style={{ color: "inherit", textDecoration: "none" }}
       >
-        <Card.Body gap="5">
+        <Card.Body gap="4" p="5">
           <Flex align="start" justify="space-between" gap="4">
             <Flex
               align="center"
-              bg="blue.50"
-              color="blue.600"
-              h="11"
+              bg="whiteAlpha.100"
+              color="blue.200"
+              h="10"
               justify="center"
               rounded="lg"
-              w="11"
+              w="10"
             >
-              <Icon as={LuFolderLock} boxSize="5" />
+              <Icon as={LuFolderLock} boxSize="4" />
             </Flex>
 
             {isLocked ? (
-              <Badge colorPalette="blue" variant="subtle">
+              <Badge colorPalette="blue" variant="subtle" rounded="md">
                 Locked
               </Badge>
             ) : null}
           </Flex>
 
           <Box>
-            <Text color="gray.950" fontSize="lg" fontWeight="semibold">
+            <Text color="white" fontSize="md" fontWeight="semibold">
               {name}
             </Text>
-            <Text color="gray.600" lineClamp="2" mt="1" textStyle="sm">
+            <Text color="gray.300" lineClamp="2" mt="1.5" textStyle="xs">
               {description || "No description yet"}
             </Text>
           </Box>
 
-          <Flex align="center" color="gray.500" justify="space-between">
+          <Flex
+            align="center"
+            color="gray.400"
+            gap="3"
+            justify="space-between"
+            wrap="wrap"
+          >
             <HStack gap="1.5">
               <Icon as={LuFileText} boxSize="4" />
-              <Text textStyle="sm">
+              <Text textStyle="xs">
                 {noteCount} {noteCount === 1 ? "note" : "notes"}
               </Text>
             </HStack>
 
             <HStack gap="1.5">
               <Icon as={LuClock3} boxSize="4" />
-              <Text textStyle="sm">{formatUpdatedAt(updatedAt)}</Text>
+              <Text textStyle="xs">{formatUpdatedAt(updatedAt)}</Text>
             </HStack>
           </Flex>
         </Card.Body>
 
         <Card.Footer
           alignItems="center"
-          bg="blackAlpha.50"
-          color="blue.600"
+          bg="blackAlpha.300"
+          color="blue.200"
           fontWeight="medium"
           justifyContent="space-between"
-          px="6"
-          py="3"
+          px="5"
+          py="2.5"
         >
-          <Text textStyle="sm">Open vault</Text>
+          <Text textStyle="xs">Open vault</Text>
           <Icon as={LuArrowRight} boxSize="4" />
         </Card.Footer>
       </a>
