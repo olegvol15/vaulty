@@ -15,25 +15,29 @@ export async function createUntitledNote(vaultId: string) {
   redirect(`/vault/${vaultId}/note/${note.id}`);
 }
 
-export async function updateNoteTitle(
+export async function renameNote(
   vaultId: string,
   noteId: string,
-  formData: FormData
+  title: string
 ) {
-  const rawTitle = formData.get("title");
-  const title = typeof rawTitle === "string" ? rawTitle.trim() : "";
+  const norm = title.trim();
 
-  await prisma.note.update({
+  const note = await prisma.note.update({
     where: {
       id: noteId,
     },
     data: {
-      title: title || "Untitled Note",
-    },
-  });
+      title: norm || "Untitled Note"
+    }
+  })
 
   revalidatePath(`/vault/${vaultId}`);
   revalidatePath(`/vault/${vaultId}/note/${noteId}`);
+
+  return {
+    id: noteId,
+    title: note.title
+  }
 }
 
 export async function updateNoteContent(
