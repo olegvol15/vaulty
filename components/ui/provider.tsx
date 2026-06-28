@@ -3,8 +3,9 @@
 import { ChakraProvider, defaultSystem } from "@chakra-ui/react"
 import { Provider as ReduxProvider } from "react-redux"
 import type { ReactNode } from "react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { makeStore } from "@/lib/store"
+import { setSidebarOpen } from "@/lib/slices/vaultSlice"
 
 type ProviderProps = {
   children: ReactNode
@@ -12,6 +13,14 @@ type ProviderProps = {
 
 export function Provider({ children }: ProviderProps) {
   const [store] = useState(makeStore)
+
+  useEffect(() => {
+    const saved = localStorage.getItem("sidebarOpen")
+    if (saved !== null) {
+      store.dispatch(setSidebarOpen(JSON.parse(saved)))
+    }
+  }, [store])
+
 
   return (
     <ReduxProvider store={store}>

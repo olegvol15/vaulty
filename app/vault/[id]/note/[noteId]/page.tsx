@@ -51,7 +51,7 @@ export default async function NotePage({
         >
           Save Markdown
         </button>
-      </form>
+      </form> 
     </article>
   );
 }

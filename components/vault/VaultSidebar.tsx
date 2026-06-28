@@ -13,10 +13,10 @@ import {
 import { createUntitledNote } from "@/app/vault/[id]/actions"
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 import {
-  selectNote,
   setSearchQuery,
   toggleSidebar,
 } from "@/lib/slices/vaultSlice"
+import { useParams } from "next/navigation"
 
 interface VaultSidebarProps {
   vault: {
@@ -34,7 +34,7 @@ export default function VaultSidebar({ vault }: VaultSidebarProps) {
   const dispatch = useAppDispatch();
   const sidebarOpen = useAppSelector((state) => state.vault.sidebarOpen)
   const searchQuery = useAppSelector((state) => state.vault.searchQuery)
-  const selectedNoteId = useAppSelector((state) => state.vault.selectedNoteId)
+  const {noteId} = useParams<{noteId?: string }>();
 
   const filteredNotes = vault.notes.filter((note) =>
     note.title.toLowerCase().includes(searchQuery.trim().toLowerCase())
@@ -127,9 +127,8 @@ export default function VaultSidebar({ vault }: VaultSidebarProps) {
                 <li key={note.id}>
                   <Link
                     href={`/vault/${vault.id}/note/${note.id}`}
-                    onClick={() => dispatch(selectNote(note.id))}
                     className={
-                      selectedNoteId === note.id
+                      noteId === note.id
                         ? "flex items-center gap-2 rounded-md bg-white/[0.08] px-2 py-1.5 text-sm text-neutral-100"
                         : "flex items-center gap-2 rounded-md px-2 py-1.5 text-sm text-neutral-400 hover:bg-white/[0.07] hover:text-neutral-100"
                     }

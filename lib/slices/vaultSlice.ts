@@ -3,15 +3,13 @@ import {createSlice, type PayloadAction, createAsyncThunk} from "@reduxjs/toolki
 
 type VaultState = {
   sidebarOpen: boolean
-  selectedNoteId: string | null
   searchQuery: string
   status: "loading" | "idle" | "error"
   error?: string | null
 }
 
-const initialState: VaultState = {
+export const initialState: VaultState = {
   sidebarOpen: true,
-  selectedNoteId: null,
   searchQuery: "",
   status: "idle"
 }
@@ -30,12 +28,13 @@ const vaultSlice = createSlice({
     toggleSidebar(state) {
       state.sidebarOpen = !state.sidebarOpen
     },
-    selectNote(state, action: PayloadAction<string | null>) {
-      state.selectedNoteId = action.payload
-    },
     setSearchQuery(state, action: PayloadAction<string>) {
       state.searchQuery = action.payload
+    },
+    setSidebarOpen(state, action: PayloadAction<boolean>) {
+      state.sidebarOpen = action.payload
     }
+
   },
   extraReducers: (builder) => {
     builder
@@ -45,5 +44,5 @@ const vaultSlice = createSlice({
   }
 })
 
-export const {toggleSidebar, selectNote, setSearchQuery} = vaultSlice.actions;
+export const {toggleSidebar, setSearchQuery, setSidebarOpen} = vaultSlice.actions;
 export default vaultSlice.reducer;
