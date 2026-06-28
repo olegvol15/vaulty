@@ -1,7 +1,10 @@
 import ExistingVaultCard from "@/components/vault/ExistingVaultCard";
 import { prisma } from "@/lib/prisma";
 import VaultyLogo from "@/components/ui/logo/logo";
-import { Button } from "@chakra-ui/react";
+import { createVault } from "./actions";
+import { LuPlus } from "react-icons/lu";
+
+export const dynamic = "force-dynamic";
 
 export default async function Page() {
   const vaults = await prisma.vault.findMany({
@@ -36,15 +39,23 @@ export default async function Page() {
             ))}
           </section>
         ) : (
-          <section className="rounded-lg border border-dashed border-white/15 bg-white/[0.03] px-6 py-12 text-center">
+          <section className="w-full max-w-xl rounded-lg border border-dashed border-white/15 bg-white/[0.03] px-6 py-8 text-center">
             <h2 className="text-lg font-semibold text-white">No vaults yet</h2>
             <p className="mt-2 text-sm text-neutral-400">
-              Add a vault in the database, then refresh this page.
+              Create your first vault to start collecting notes.
             </p>
           </section>
         )}
 
-        <Button />
+        <form action={createVault}>
+          <button
+            type="submit"
+            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-sky-500 px-5 text-sm font-semibold text-neutral-950 hover:bg-sky-400"
+          >
+            <LuPlus className="h-4 w-4" />
+            New Vault
+          </button>
+        </form>
       </section>
     </main>
   );

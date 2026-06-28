@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import vaultReducer from "./slices/vaultSlice"
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-
+      vault: vaultReducer,
     }
   })
 }
