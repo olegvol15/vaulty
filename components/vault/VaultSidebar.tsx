@@ -17,6 +17,8 @@ import {
   toggleSidebar,
 } from "@/lib/slices/vaultSlice"
 import { useParams } from "next/navigation"
+import { selectFilteredNotes } from "@/lib/selectors"
+import { setNotesSortBy } from "@/lib/slices/preferencesSlice"
 
 interface VaultSidebarProps {
   vault: {
@@ -36,9 +38,11 @@ export default function VaultSidebar({ vault }: VaultSidebarProps) {
   const searchQuery = useAppSelector((state) => state.vault.searchQuery)
   const {noteId} = useParams<{noteId?: string }>();
 
-  const filteredNotes = vault.notes.filter((note) =>
-    note.title.toLowerCase().includes(searchQuery.trim().toLowerCase())
+  const filteredNotes = useAppSelector((state) => 
+    selectFilteredNotes(state, vault.notes)
   )
+
+  const sortBy = useAppSelector((state) => state.preferences.notesSortBy)
 
   return (
     <aside
@@ -78,6 +82,15 @@ export default function VaultSidebar({ vault }: VaultSidebarProps) {
             {vault.description}
           </p>
         ) : null}
+
+        <button
+          type="button"
+          onClick={() => dispatch(setNotesSortBy(sortBy === "recent" ? "title": "recent"))}
+          title="Toggle sort"
+          className="text-xs text-neutral-500 hover:text-neutral-200"
+        >
+          {sortBy === "recent" ? "Recent" : "A-Z"}
+        </button>
         </div>
 
         <nav className="flex-1 px-3 py-3">

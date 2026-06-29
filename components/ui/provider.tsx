@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import { makeStore } from "@/lib/store"
 import { setSidebarOpen } from "@/lib/slices/vaultSlice"
 import { Toaster } from "./toast/toaster"
+import { setNotesSortBy } from "@/lib/slices/preferencesSlice"
 
 type ProviderProps = {
   children: ReactNode
@@ -19,6 +20,11 @@ export function Provider({ children }: ProviderProps) {
     const saved = localStorage.getItem("sidebarOpen")
     if (saved !== null) {
       store.dispatch(setSidebarOpen(JSON.parse(saved)))
+    }
+
+    const savedSort = localStorage.getItem("notesSortBy")
+    if(savedSort !== null) {
+      store.dispatch(setNotesSortBy(JSON.parse(savedSort)))
     }
   }, [store])
 
