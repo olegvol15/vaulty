@@ -44,5 +44,5 @@ const vaultSlice = createSlice({
   }
 })
 
-export const {toggleSidebar, setSearchQuery, setSidebarOpen} = vaultSlice.actions;
+export const {toggleSidebar, setSearchQuery, setSidebarOpen } = vaultSlice.actions;
 export default vaultSlice.reducer;
