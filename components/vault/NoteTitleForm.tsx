@@ -4,6 +4,7 @@ import { useState } from "react";
 import { LuSave } from "react-icons/lu";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { renameNoteThunk } from "@/lib/slices/vaultSlice";
+import { titleEdited } from "@/lib/actions";
 
 export default function NoteTitleForm({
   vaultId,
@@ -29,7 +30,11 @@ export default function NoteTitleForm({
       <input
         name="title"
         value={value}
-        onChange={(event) => setValue(event.currentTarget.value)}
+        onChange={(event) => {
+          const next = event.target.value
+          setValue(next)
+          dispatch(titleEdited({vaultId, noteId, title: next}))
+        }}
         aria-label="Note title"
         className="w-full bg-transparent text-4xl font-semibold text-neutral-100 outline-none placeholder:text-neutral-600 focus:text-white"
       />

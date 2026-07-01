@@ -3,6 +3,7 @@ import { renameNoteThunk, toggleSidebar } from "./slices/vaultSlice";
 import type { AppDispatch, RootState } from "./store";
 import { toaster } from "@/components/ui/toast/toaster";
 import { setNotesSortBy } from "./slices/preferencesSlice";
+import { titleEdited } from "./actions";
 
 export const listenerMiddleware = createListenerMiddleware();
 
@@ -44,5 +45,14 @@ startAppListening({
   effect: (action, listenerApi) => {
     const state = listenerApi.getState();
     localStorage.setItem("notesSortBy", JSON.stringify(state.preferences.notesSortBy))
+  }
+})
+
+startAppListening({
+  actionCreator: titleEdited,
+  effect: async (action, listenerApi) => {
+    listenerApi.cancelActiveListeners()
+    await listenerApi.delay(800)
+    await listenerApi.dispatch(renameNoteThunk(action.payload))
   }
 })
