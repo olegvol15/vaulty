@@ -12,13 +12,14 @@ export async function createUntitledNote(vaultId: string) {
     },
   });
 
+  revalidatePath(`/vault/${vaultId}/note/${note.id}`);
   redirect(`/vault/${vaultId}/note/${note.id}`);
 }
 
 export async function renameNote(
   vaultId: string,
   noteId: string,
-  title: string
+  title: string,
 ) {
   const norm = title.trim();
 
@@ -27,35 +28,52 @@ export async function renameNote(
       id: noteId,
     },
     data: {
-      title: norm || "Untitled Note"
-    }
-  })
+      title: norm || "Untitled Note",
+    },
+  });
 
   revalidatePath(`/vault/${vaultId}`);
   revalidatePath(`/vault/${vaultId}/note/${noteId}`);
 
   return {
     id: noteId,
-    title: note.title
-  }
+    title: note.title,
+  };
 }
 
 export async function updateNoteContent(
   vaultId: string,
   noteId: string,
-  formData: FormData
+  formData: FormData,
 ) {
-  const rawContent = formData.get("content")
+  const rawContent = formData.get("content");
   const content = typeof rawContent === "string" ? rawContent : "";
 
   await prisma.note.update({
     where: {
-      id: noteId
+      id: noteId,
     },
     data: {
-      content
-    }
-  })
+      content,
+    },
+  });
 
-  revalidatePath(`/vault/${vaultId}/note/${noteId}`)
+  revalidatePath(`/vault/${vaultId}/note/${noteId}`);
+}
+
+export async function deleteNote(
+  vaultId: string,
+  noteId: string,
+  currentNoteId?: string,
+) {
+  await prisma.note.delete({
+    where: {
+      id: noteId,
+    },
+  });
+
+  revalidatePath(`/vault/${vaultId}`);
+  if (noteId === currentNoteId) {
+    redirect(`/vault/${vaultId}`);
+  }
 }
