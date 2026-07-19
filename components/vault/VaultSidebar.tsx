@@ -9,14 +9,14 @@ import {
   LuPlus,
   LuSearch,
   LuSquarePen,
-  LuTrash,
 } from "react-icons/lu";
-import { createUntitledNote, deleteNote } from "@/app/vault/[id]/actions";
+import { createUntitledNote } from "@/app/vault/[id]/actions";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setSearchQuery, toggleSidebar } from "@/lib/slices/vaultSlice";
 import { useParams } from "next/navigation";
 import { selectFilteredNotes } from "@/lib/selectors";
 import { setNotesSortBy } from "@/lib/slices/preferencesSlice";
+import DeleteNoteButton from "./DeleteNoteButton";
 
 interface VaultSidebarProps {
   vault: {
@@ -152,18 +152,11 @@ export default function VaultSidebar({ vault }: VaultSidebarProps) {
                       <span className="truncate">{note.title}</span>
                     </Link>
 
-                    <form
-                      action={deleteNote.bind(null, vault.id, note.id, noteId)}
-                    >
-                      <button
-                        type="submit"
-                        aria-label="Delete Note"
-                        title="Delete Note"
-                        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-neutral-500 opacity-0 group-hover:opacity-100 hover:bg-white/[0.07] hover:text-red-400"
-                      >
-                        <LuTrash className="h-4 w-4" />
-                      </button>
-                    </form>
+                    <DeleteNoteButton
+                      vaultId={vault.id}
+                      noteId={note.id}
+                      isActive={noteId === note.id}
+                    />
                   </li>
                 ))}
               </ul>

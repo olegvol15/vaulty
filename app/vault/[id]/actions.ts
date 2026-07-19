@@ -7,12 +7,11 @@ import { redirect } from "next/navigation";
 export async function createUntitledNote(vaultId: string) {
   const note = await prisma.note.create({
     data: {
-      title: "Untitled Note",
+      title: "Untitled note",
       vaultId,
-    },
-  });
-
-  revalidatePath(`/vault/${vaultId}/note/${note.id}`);
+    }
+  })
+  revalidatePath(`/vault/${vaultId}/note/${note.id}`)
   redirect(`/vault/${vaultId}/note/${note.id}`);
 }
 
@@ -61,19 +60,9 @@ export async function updateNoteContent(
   revalidatePath(`/vault/${vaultId}/note/${noteId}`);
 }
 
-export async function deleteNote(
-  vaultId: string,
-  noteId: string,
-  currentNoteId?: string,
-) {
-  await prisma.note.delete({
-    where: {
-      id: noteId,
-    },
-  });
-
-  revalidatePath(`/vault/${vaultId}`);
-  if (noteId === currentNoteId) {
-    redirect(`/vault/${vaultId}`);
-  }
+export async function deleteNote(vaultId: string, noteId: string) {
+  await prisma.note.delete({ where: { id: noteId } })
+  revalidatePath(`/vault/${vaultId}`)
+  return { id: noteId }
 }
+
